@@ -85,10 +85,16 @@ def main():
     rospy.Subscriber('/odom', Odometry, clbk_odom)
     rate = rospy.Rate(10)
     
+    pose.pose.position.x = rospy.get_param('des_pos_x')  
+    pose.pose.position.y = rospy.get_param('des_pos_y')
+    pose.pose.position.z = 0.0
+    
+    goal_planning_client(pose)
+    rate.sleep()
+    
     while not rospy.is_shutdown():
         pose.pose.position.x = float(input("Insert x coordinate: "))
         pose.pose.position.y = float(input("Insert y coordinate: "))
-        pose.pose.position.z = 0.0
         
         goal_planning_client(pose)
         rate.sleep()
