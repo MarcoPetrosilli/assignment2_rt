@@ -13,6 +13,9 @@ from assignment2_rt_part1.msg import pos_vel
 from tf import transformations
 from std_srvs.srv import *
 import time
+import sys
+import select
+
 
 # 0 - go to point
 # 1 - wall following
@@ -38,21 +41,26 @@ def goal_planning_client(t_pose):
     goal = assignment2_rt_part1.msg.PlanningGoal(target_pose=t_pose)
     client.send_goal(goal, done_cb=done_callback, feedback_cb=feedback_callback)
     
+    print("Type 'c' to cancel the target ")
+    
     while not client.get_result():
         targ_pub.publish(t_pose)
-        cancel_var = input("Type 'c' to cancel the target ")
-        if cancel_var == 'c':
-            client.cancel_goal()
-            print("Goal canceled")
-            return 0
-        while not client.get_result():
-            msg.x = pose_.position.x
-            msg.y = pose_.position.y
-            msg.vel_x = twist_.linear.x
-            msg.vel_z = twist_.angular.z
-            pub.publish(msg)
-            
-        
+    
+        msg.x = pose_.position.x
+        msg.y = pose_.position.y
+        msg.vel_x = twist_.linear.x
+        msg.vel_z = twist_.angular.z
+    
+        i, o, e = select.select([sys.stdin], [], [], 1.0)
+        if(i):
+            cancel = sys.stdin.readline().strip()
+            if cancel == 'c':
+               client.cancel_goal()
+               rospy.loginfo("Goal deletion: confirmed")
+               break
+
+        pub.publish(msg)
+
     return client.get_result()
 
 def clbk_odom(msg):
