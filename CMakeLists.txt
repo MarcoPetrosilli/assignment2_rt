@@ -73,6 +73,11 @@ add_message_files(
 #   Service2.srv
 # )
 
+ add_service_files(
+   FILES
+   target_coord.srv
+ )
+
 ## Generate actions in the 'action' folder
  add_action_files(
    FILES
@@ -180,6 +185,10 @@ include_directories(
 
 catkin_install_python(PROGRAMS
    scripts/action_client.py
+   scripts/bug_as.py
+   scripts/go_to_point_service.py
+   scripts/last_target_node.py
+   scripts/wall_follow_service.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
