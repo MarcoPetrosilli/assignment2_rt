@@ -4,8 +4,8 @@ from geometry_msgs.msg import PoseStamped
 from assignment2_rt_part1.srv import target_coord, target_coordResponse
 
 # Variabili globali per memorizzare le coordinate
-x = 0
-y = 0
+x = 0.0
+y = 0.0
 
 # Callback per il subscriber
 def last_target_clbk(msg):
