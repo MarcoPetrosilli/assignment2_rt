@@ -44,7 +44,6 @@ def goal_planning_client(t_pose):
     print("Type 'c' to cancel the target ")
     
     while not client.get_result():
-        targ_pub.publish(t_pose)
     
         msg.x = pose_.position.x
         msg.y = pose_.position.y
@@ -60,6 +59,7 @@ def goal_planning_client(t_pose):
                break
 
         pub.publish(msg)
+        targ_pub.publish(t_pose)
 
     return client.get_result()
 
