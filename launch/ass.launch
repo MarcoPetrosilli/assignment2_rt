@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find assignment2_rt_part1)/launch/assignment1.launch"/>
+    <node pkg="assignment2_rt_part1" type="action_client.py" name="action_client" output="screen" launch-prefix="xterm -e"/>
+    <node pkg="assignment2_rt_part1" type="last_target_node.py" name="last_target_node" output="screen"/>
+</launch>
