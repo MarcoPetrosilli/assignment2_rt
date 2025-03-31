@@ -1,0 +1,156 @@
+\hypertarget{action__client_8py}{}\doxysection{scripts/action\+\_\+client.py File Reference}
+\label{action__client_8py}\index{scripts/action\_client.py@{scripts/action\_client.py}}
+
+
+Sends a goal to the action server, consisting of the x and y coordinates, which are read from the launch file, that the mobile robot must reach.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{action__client_8py_a26de5b9075ea5cb19268eae5f9bb491a}{action\+\_\+client.\+goal\+\_\+planning\+\_\+client}} (t\+\_\+pose)
+\begin{DoxyCompactList}\small\item\em Sends a planning goal to an action server and allows monitoring the progress towards the goal. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{action__client_8py_a26f082c3b3b4b30b8d1f68af7f8970fa}{action\+\_\+client.\+clbk\+\_\+odom}} (msg)
+\begin{DoxyCompactList}\small\item\em The clbk\+\_\+odom function is a callback that updates the global pose and twist based on incoming odometry data from the robot. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{action__client_8py_a4d661b687a2ef1a2850045bbe55bf2a8}{action\+\_\+client.\+feedback\+\_\+callback}} (feedback)
+\begin{DoxyCompactList}\small\item\em Processes feedback from the action server and computes the remaining distance. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{action__client_8py_afba1e5da098ec4cd42e112ccbd9ee321}{action\+\_\+client.\+done\+\_\+callback}} (state, result)
+\begin{DoxyCompactList}\small\item\em Logs when the goal has been reached. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{action__client_8py_aece5b3dc7f370ff7ab45e105b5e6bbaa}{action\+\_\+client.\+main}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the R\+OS node and continuously updates the target position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{action__client_8py_a44ecdd25f82d6866f8b56edbd705e6d2}\label{action__client_8py_a44ecdd25f82d6866f8b56edbd705e6d2}} 
+{\bfseries action\+\_\+client.\+pose} = Pose\+Stamped()
+\item 
+\mbox{\Hypertarget{action__client_8py_aef4e2d905d31882001382920c07f4fd6}\label{action__client_8py_aef4e2d905d31882001382920c07f4fd6}} 
+{\bfseries action\+\_\+client.\+pose\+\_\+} = Pose()
+\item 
+\mbox{\Hypertarget{action__client_8py_af97165e1ee4f1fd4df50e54af339a8ba}\label{action__client_8py_af97165e1ee4f1fd4df50e54af339a8ba}} 
+{\bfseries action\+\_\+client.\+twist\+\_\+} = Twist()
+\item 
+\mbox{\Hypertarget{action__client_8py_aedf7cd9c8abb8888bac528688269b9c5}\label{action__client_8py_aedf7cd9c8abb8888bac528688269b9c5}} 
+{\bfseries action\+\_\+client.\+msg} = pos\+\_\+vel()
+\item 
+\mbox{\Hypertarget{action__client_8py_ab92c93b3d3d7f8edde1ea469d5717841}\label{action__client_8py_ab92c93b3d3d7f8edde1ea469d5717841}} 
+{\bfseries action\+\_\+client.\+pub} = rospy.\+Publisher(\textquotesingle{}/pos\+\_\+vel\textquotesingle{}, pos\+\_\+vel, queue\+\_\+size=10)
+\item 
+\mbox{\Hypertarget{action__client_8py_ada492458805b0a39b0b26ff99281f3fb}\label{action__client_8py_ada492458805b0a39b0b26ff99281f3fb}} 
+{\bfseries action\+\_\+client.\+targ\+\_\+pub} = rospy.\+Publisher(\textquotesingle{}/last\+\_\+target\textquotesingle{}, Pose\+Stamped, queue\+\_\+size=10)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sends a goal to the action server, consisting of the x and y coordinates, which are read from the launch file, that the mobile robot must reach. 
+
+\begin{DoxyAuthor}{Author}
+Marco Petrosilli 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+15/03/2025
+\end{DoxyDate}
+Subscribes to\+: ~\newline
+ /odom
+
+Publishes to\+: ~\newline
+ /pos\+\_\+target /vel\+\_\+last
+
+Description\+: ~\newline
+ This node implements an action client that sends position goals to the mobile robot. It reads initial target coordinates (x,y) from the launch file parameters and sends them to the action server. The node allows users to input new target coordinates during execution, monitors the robot\textquotesingle{}s progress toward the goal, and provides the option to cancel the goal by typing \textquotesingle{}c\textquotesingle{} in the terminal. It continuously publishes the robot\textquotesingle{}s current position and velocity while tracking the goal. The node also handles goal completion callbacks and feedback processing to provide status updates during execution. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{action__client_8py_a26f082c3b3b4b30b8d1f68af7f8970fa}\label{action__client_8py_a26f082c3b3b4b30b8d1f68af7f8970fa}} 
+\index{action\_client.py@{action\_client.py}!clbk\_odom@{clbk\_odom}}
+\index{clbk\_odom@{clbk\_odom}!action\_client.py@{action\_client.py}}
+\doxysubsubsection{\texorpdfstring{clbk\_odom()}{clbk\_odom()}}
+{\footnotesize\ttfamily def action\+\_\+client.\+clbk\+\_\+odom (\begin{DoxyParamCaption}\item[{}]{msg }\end{DoxyParamCaption})}
+
+
+
+The clbk\+\_\+odom function is a callback that updates the global pose and twist based on incoming odometry data from the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & The odometry message containing the robot\textquotesingle{}s current pose and twist (linear and angular velocity). It is of type nav\+\_\+msgs/\+Odometry. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function does not return any value. It updates the global variables pose\+\_\+ and twist\+\_\+ with the current robot pose and twist data.
+\end{DoxyReturn}
+This function acts as a callback for the /odom topic, updating global variables pose\+\_\+ and twist\+\_\+ with the current position and velocity of the robot. These values are essential for monitoring the robot\textquotesingle{}s movement and ensuring it follows the planned trajectory. \mbox{\Hypertarget{action__client_8py_afba1e5da098ec4cd42e112ccbd9ee321}\label{action__client_8py_afba1e5da098ec4cd42e112ccbd9ee321}} 
+\index{action\_client.py@{action\_client.py}!done\_callback@{done\_callback}}
+\index{done\_callback@{done\_callback}!action\_client.py@{action\_client.py}}
+\doxysubsubsection{\texorpdfstring{done\_callback()}{done\_callback()}}
+{\footnotesize\ttfamily def action\+\_\+client.\+done\+\_\+callback (\begin{DoxyParamCaption}\item[{}]{state,  }\item[{}]{result }\end{DoxyParamCaption})}
+
+
+
+Logs when the goal has been reached. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em result} & The result of the goal execution, which contains the outcome of the action. This parameter can hold any relevant data returned by the action server (not used in this function). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function does not return any value.
+\end{DoxyReturn}
+This function is called when the goal execution is completed. It verifies whether the goal was successfully reached and logs the outcome accordingly. \mbox{\Hypertarget{action__client_8py_a4d661b687a2ef1a2850045bbe55bf2a8}\label{action__client_8py_a4d661b687a2ef1a2850045bbe55bf2a8}} 
+\index{action\_client.py@{action\_client.py}!feedback\_callback@{feedback\_callback}}
+\index{feedback\_callback@{feedback\_callback}!action\_client.py@{action\_client.py}}
+\doxysubsubsection{\texorpdfstring{feedback\_callback()}{feedback\_callback()}}
+{\footnotesize\ttfamily def action\+\_\+client.\+feedback\+\_\+callback (\begin{DoxyParamCaption}\item[{}]{feedback }\end{DoxyParamCaption})}
+
+
+
+Processes feedback from the action server and computes the remaining distance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feedback} & The feedback message from the action server. It contains the current pose of the robot, specifically the actual position (feedback.\+actual\+\_\+pose.\+position), which is used to compute the distance to the target position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function does not return any value.
+\end{DoxyReturn}
+This function calculates the Euclidean distance between the robot\textquotesingle{}s current position and the target. It logs the robot\textquotesingle{}s position and the remaining distance to help monitor progress. \mbox{\Hypertarget{action__client_8py_a26de5b9075ea5cb19268eae5f9bb491a}\label{action__client_8py_a26de5b9075ea5cb19268eae5f9bb491a}} 
+\index{action\_client.py@{action\_client.py}!goal\_planning\_client@{goal\_planning\_client}}
+\index{goal\_planning\_client@{goal\_planning\_client}!action\_client.py@{action\_client.py}}
+\doxysubsubsection{\texorpdfstring{goal\_planning\_client()}{goal\_planning\_client()}}
+{\footnotesize\ttfamily def action\+\_\+client.\+goal\+\_\+planning\+\_\+client (\begin{DoxyParamCaption}\item[{}]{t\+\_\+pose }\end{DoxyParamCaption})}
+
+
+
+Sends a planning goal to an action server and allows monitoring the progress towards the goal. 
+
+It also provides the ability to cancel the goal during execution. 
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+pose} & The target position (pose) that the robot should reach. It is a geometry\+\_\+msgs/\+Pose object containing the desired position and orientation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the action after it completes, which can be obtained via the client.\+get\+\_\+result() method. The result depends on the behavior of the action as defined in the action server.
+\end{DoxyReturn}
+This function communicates with an action server to send a goal specifying the robot\textquotesingle{}s target position. It waits for the server to be available, sends the goal, and allows real-\/time monitoring of its progress. Users can cancel the goal by typing \textquotesingle{}c\textquotesingle{} in the terminal. The function continuously publishes the robot?s current position and velocity until the goal is reached or canceled. \mbox{\Hypertarget{action__client_8py_aece5b3dc7f370ff7ab45e105b5e6bbaa}\label{action__client_8py_aece5b3dc7f370ff7ab45e105b5e6bbaa}} 
+\index{action\_client.py@{action\_client.py}!main@{main}}
+\index{main@{main}!action\_client.py@{action\_client.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def action\+\_\+client.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the R\+OS node and continuously updates the target position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function does not return any value.
+\end{DoxyReturn}
+The main function initializes the R\+OS node, subscribes to the /odom topic, and sets the robot\textquotesingle{}s target position using parameters retrieved from the launch file. It allows users to input new target coordinates dynamically and sends them to the goal planning function for execution. 
