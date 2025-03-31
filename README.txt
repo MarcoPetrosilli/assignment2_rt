@@ -33,4 +33,6 @@ This command will launch de whole software, in that launch file will be called:
 	all the software components of the simulation
 	- the action client node
 	- the serive node
+
+Documentation for action_client.py and last_target_node.py available at https://marcopetrosilli.github.io/assignment2_rt
 	
